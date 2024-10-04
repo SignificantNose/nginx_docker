@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: nginx_docker
+    image: nginx
+
+    volumes:
+      - "./certs:/certs"
+      - "./sites:/sites"
+      - "./configs/main.nginx.conf:/etc/nginx/nginx.conf"
+
+    networks:
+      - nginx-net
+
+    ports:
+      - "5050:443"
+
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "1G"
+
+networks:
+  nginx-net:
+    driver: bridge
